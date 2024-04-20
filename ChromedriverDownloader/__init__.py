@@ -40,6 +40,9 @@ def download_chromedriver(path, operating_system, version, override):
             print(f"Downloaded Chromedriver To: {path}, Version: {version}")
         except Exception as e:
             print("ERROR:", str(e)) # :3
+            input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
+            exit()
+            
     elif os.path.exists(chromedriver_path) and override == True:
         print(f"Removing chromedriver.exe From: {chromedriver_path}")
 
@@ -47,6 +50,8 @@ def download_chromedriver(path, operating_system, version, override):
             os.remove(chromedriver_path)
         except Exception as e:
             print("ERROR:", str(e)) # :3
+            input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
+            exit()
             
         print(f"Downloading Chromedriver To: {path}, Version: {version}")
         url = f"https://chromedriver.storage.googleapis.com/{version}/chromedriver_{operating_system}.zip"
@@ -59,5 +64,7 @@ def download_chromedriver(path, operating_system, version, override):
             print(f"Downloaded Chromedriver To: {path}, Version: {version}")
         except Exception as e:
             print("ERROR:", str(e)) # :3
+            input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
+            exit()
     else:
         print(f"chromedriver.exe Already Exists At: {chromedriver_path}")
