@@ -8,10 +8,14 @@ Allows overriting which lets you update chromedriver.exe to the latest version.
 Also allows you to download chromedriver for specified operating systems!
 
 Allowed operating systems are:
+
 - linux64
 - mac-arm64
 - mac-x64
 - win32
+- win64
+  
+You must write the operating systems as provided
 
 # Requirements
 All you need is to install requests by putting this into command prompt.
