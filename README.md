@@ -25,6 +25,6 @@ pip install requests
 # How to use it?
 To import this into your project (after downloading and placed into the project) do:
 ```
-from ChromedriveDownloader import *
+from ChromedriverDownloader import *
 ```
 on top of the code.
