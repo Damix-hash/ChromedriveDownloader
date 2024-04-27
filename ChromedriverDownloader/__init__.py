@@ -1,5 +1,6 @@
 import requests
 import os
+import platform
 
 def latest_chromedriver():
     chromedriver_download_site = "https://getwebdriver.com/chromedriver"
@@ -25,8 +26,20 @@ def latest_chromedriver():
     
 def download_chromedriver(path, operating_system, version, override):
     if operating_system == "":
-        operating_system = "win32"
-
+        computer_os = platform.system()
+        computer_bits = platform.architecture()[0]
+        
+        if computer_os == "Linux" and computer_bits == "x86_64":
+            operating_system = "linux64"
+        elif computer_os == 'Darwin' and computer_bits == 'arm64':
+            operating_system = "mac-arm64"
+        elif computer_os == 'Darwin' and computer_bits == 'x86_64':
+            operating_system = "mac-arm64"
+        elif computer_os == 'Windows' and computer_bits == '32bit':
+            operating_system = "win32"
+        elif computer_os == 'Windows' and computer_bits == '64bit':
+            operating_system = "win64"
+        
     if path == "":
         path = os.getcwd()
 
@@ -37,8 +50,8 @@ def download_chromedriver(path, operating_system, version, override):
     print(f"Checking for chromedriver.exe at: {chromedriver_path}")
     
     if not os.path.exists(chromedriver_path):
-        print(f"Downloading Chromedriver To: {path}, Version: {version}")
-        url = f"https://chromedriver.storage.googleapis.com/{version}/chromedriver_{operating_system}.zip"
+        print(f"Downloading Chromedriver To: {path}, Version: {version}, OS: {operating_system}")
+        url = f"https://storage.googleapis.com/chrome-for-testing-public/{version}/{operating_system}/chromedriver-{operating_system}.zip"
 
 
         try:
@@ -62,7 +75,7 @@ def download_chromedriver(path, operating_system, version, override):
             exit()
             
         print(f"Downloading Chromedriver To: {path}, Version: {version}")
-        url = f"https://chromedriver.storage.googleapis.com/{version}/chromedriver_{operating_system}.zip"
+        url = f"https://storage.googleapis.com/chrome-for-testing-public/{version}/{operating_system}/chromedriver-{operating_system}.zip"
 
 
         try:
