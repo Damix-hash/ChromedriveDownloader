@@ -10,13 +10,17 @@ def latest_chromedriver():
             if "<h2>Stable</h2><p>Version:" in line.decode('utf-8'):
                 version = line[0:-15].decode('utf-8').strip().replace("<code>", "")
                 break
-
-    n = version.find("Version:")
-    if not "<" in version[n+9:]:
-        return_version = version[n+9:]
+            
+    stable_version = ''
+    version_start = version.find("Version:")
+    version_start = version_start + 9
+    version_check = version[version_start:]
+    if "<" in version_check:
+        version_end = version.find("<", version_start)
+        stable_version = version[version_start:version_end]
     else:
-        version[n+9:].strip("<").strip("\")
-    return 
+        stable_version = version[version_start:]
+    return stable_version
 
     
 def download_chromedriver(path, operating_system, version, override):
