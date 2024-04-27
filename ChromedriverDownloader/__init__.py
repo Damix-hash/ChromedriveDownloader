@@ -12,7 +12,11 @@ def latest_chromedriver():
                 break
 
     n = version.find("Version:")
-    return version[n+9:]
+    if not "<" in version[n+9:]:
+        return_version = version[n+9:]
+    else:
+        version[n+9:].strip("<").strip("\")
+    return 
 
     
 def download_chromedriver(path, operating_system, version, override):
