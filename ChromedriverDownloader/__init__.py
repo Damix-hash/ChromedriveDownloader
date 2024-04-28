@@ -55,9 +55,18 @@ def download_chromedriver(path, operating_system, version, override):
 
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, stream=True)
+            total_length = response.headers.get('content-length')
+            
             with open(chromedriver_path, 'wb') as file:
-                file.write(response.content)
+                download_data = 0
+                total_length = int(total_length)
+                for data in response.iter_content(chunk_size=4096):
+                    download_data += len(data)
+                    file.write(data)
+                    done = int(50 * download_data / total_length)
+                    print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
+                    
             print(f"Downloaded Chromedriver To: {path}, Version: {version}")
         except Exception as e:
             print("ERROR:", str(e)) # :3
@@ -79,9 +88,17 @@ def download_chromedriver(path, operating_system, version, override):
 
 
         try:
-            response = requests.get(url)
+            response = requests.get(url, stream=True)
+            total_length = response.headers.get('content-length')
             with open(chromedriver_path, 'wb') as file:
-                file.write(response.content)
+                download_data = 0
+                total_length = int(total_length)
+                for data in response.iter_content(chunk_size=4096):
+                    download_data += len(data)
+                    file.write(data)
+                    done = int(50 * download_data / total_length)
+                    print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
+                    
             print(f"Downloaded Chromedriver To: {path}, Version: {version}")
         except Exception as e:
             print("ERROR:", str(e)) # :3
