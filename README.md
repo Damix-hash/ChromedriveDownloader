@@ -17,6 +17,9 @@ Allowed operating systems are:
   
 You must write the operating systems as provided
 
+> [!NOTE]\
+> You don't have to provide operating systems anymore. Added os indentifier!
+
 # Requirements
 All you need is to install requests by putting this into command prompt.
 ```
