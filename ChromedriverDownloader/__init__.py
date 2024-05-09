@@ -47,62 +47,73 @@ def download_chromedriver(path, operating_system, version, override):
     chromedriver_path = f"{chromedriver_dir}/chromedriver.exe"
     
     print("===========================[ChromedriverDownloader]===========================")
-    print(f"Checking for chromedriver.exe at: {chromedriver_path}")
-    
-    if not os.path.exists(chromedriver_path):
-        print(f"Downloading Chromedriver To: {path}, Version: {version}, OS: {operating_system}")
-        url = f"https://storage.googleapis.com/chrome-for-testing-public/{version}/{operating_system}/chromedriver-{operating_system}.zip"
+    print(f"Checking if {path} exists.")
+
+    if os.path.exists(path):
+        print("Folder exists!")
+        print(f"Checking for chromedriver.exe at: {path}")
+        
+        if not os.path.exists(chromedriver_path):
+            print(f"Downloading Chromedriver To: {path}, Version: {version}, OS: {operating_system}")
+            url = f"https://storage.googleapis.com/chrome-for-testing-public/{version}/{operating_system}/chromedriver-{operating_system}.zip"
 
 
-        try:
-            response = requests.get(url, stream=True)
-            total_length = response.headers.get('content-length')
+            try:
+                response = requests.get(url, stream=True)
+                total_length = response.headers.get('content-length')
             
-            with open(chromedriver_path, 'wb') as file:
-                download_data = 0
-                total_length = int(total_length)
-                for data in response.iter_content(chunk_size=4096):
-                    download_data += len(data)
-                    file.write(data)
-                    done = int(50 * download_data / total_length)
-                    print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
+                with open(chromedriver_path, 'wb') as file:
+                    download_data = 0
+                    total_length = int(total_length)
+                    for data in response.iter_content(chunk_size=4096):
+                        download_data += len(data)
+                        file.write(data)
+                        done = int(50 * download_data / total_length)
+                        print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
                     
-            print(f"Downloaded Chromedriver To: {path}, Version: {version}")
-        except Exception as e:
-            print("ERROR:", str(e)) # :3
-            input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
-            exit()
+                print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+            except Exception as e:
+                print("ERROR:", str(e)) # :3
+                input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
+                exit()
             
-    elif os.path.exists(chromedriver_path) and override == True:
-        print(f"Removing chromedriver.exe From: {chromedriver_path}")
+        elif os.path.exists(chromedriver_path) and override == True:
+            print(f"Removing chromedriver.exe From: {chromedriver_path}")
 
-        try:
-            os.remove(chromedriver_path)
-        except Exception as e:
-            print("ERROR:", str(e)) # :3
-            input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
-            exit()
+            try:
+                os.remove(chromedriver_path)
+            except Exception as e:
+                print("ERROR:", str(e)) # :3
+                input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
+                exit()
             
-        print(f"Downloading Chromedriver To: {path}, Version: {version}")
-        url = f"https://storage.googleapis.com/chrome-for-testing-public/{version}/{operating_system}/chromedriver-{operating_system}.zip"
+            print(f"Downloading Chromedriver To: {path}, Version: {version}")
+            url = f"https://storage.googleapis.com/chrome-for-testing-public/{version}/{operating_system}/chromedriver-{operating_system}.zip"
 
 
-        try:
-            response = requests.get(url, stream=True)
-            total_length = response.headers.get('content-length')
-            with open(chromedriver_path, 'wb') as file:
-                download_data = 0
-                total_length = int(total_length)
-                for data in response.iter_content(chunk_size=4096):
-                    download_data += len(data)
-                    file.write(data)
-                    done = int(50 * download_data / total_length)
-                    print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
+            try:
+                response = requests.get(url, stream=True)
+                total_length = response.headers.get('content-length')
+                with open(chromedriver_path, 'wb') as file:
+                    download_data = 0
+                    total_length = int(total_length)
+                    for data in response.iter_content(chunk_size=4096):
+                        download_data += len(data)
+                        file.write(data)
+                        done = int(50 * download_data / total_length)
+                        print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
                     
-            print(f"Downloaded Chromedriver To: {path}, Version: {version}")
-        except Exception as e:
-            print("ERROR:", str(e)) # :3
-            input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
-            exit()
+                print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+            except Exception as e:
+                print("ERROR:", str(e)) # :3
+                input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
+                exit()
+        else:
+            print(f"chromedriver.exe Already Exists At: {chromedriver_path}")
     else:
-        print(f"chromedriver.exe Already Exists At: {chromedriver_path}")
+        print(f"{folder} Does not exist! Leaving.")
+        input("Press ENTER To Leave.")
+        exit()
+
+if __name__ == "__main__":
+    exit()
