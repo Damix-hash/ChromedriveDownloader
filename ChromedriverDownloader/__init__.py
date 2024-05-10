@@ -1,6 +1,9 @@
 import requests
 import os
 import platform
+import zipfile
+import io
+import shutil
 
 def latest_chromedriver():
     chromedriver_download_site = "https://getwebdriver.com/chromedriver"
@@ -25,6 +28,7 @@ def latest_chromedriver():
 
     
 def download_chromedriver(path, operating_system, version, override):
+        
     if operating_system == "":
         computer_os = platform.system()
         computer_bits = platform.architecture()[0]
@@ -45,6 +49,7 @@ def download_chromedriver(path, operating_system, version, override):
 
     chromedriver_dir = path
     chromedriver_path = f"{chromedriver_dir}/chromedriver.exe"
+    chromedriver_zip = f"{chromedriver_dir}/chromedriver.zip"
     
     print("===========================[ChromedriverDownloader]===========================")
     print(f"Checking if {path} exists.")
@@ -62,7 +67,7 @@ def download_chromedriver(path, operating_system, version, override):
                 response = requests.get(url, stream=True)
                 total_length = response.headers.get('content-length')
             
-                with open(chromedriver_path, 'wb') as file:
+                with open(chromedriver_zip, 'wb') as file:
                     download_data = 0
                     total_length = int(total_length)
                     for data in response.iter_content(chunk_size=4096):
@@ -71,7 +76,28 @@ def download_chromedriver(path, operating_system, version, override):
                         done = int(50 * download_data / total_length)
                         print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
                     
-                print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+                print(f"Downloaded Zip To: {path}")
+                print("Unzipping...")
+                if os.path.exists(chromedriver_zip):
+                    with zipfile.ZipFile(chromedriver_zip, 'r') as zip_ref:
+                        for file_info in zip_ref.infolist():
+                            if file_info.filename.endswith('.exe'):
+                                zip_ref.extract(file_info, path)
+
+                
+                    extracted_files = [f for f in os.listdir(path) if f.endswith('.exe')]
+                    print(f"Extracted .exe files: {extracted_files}")
+
+                for file in os.listdir(chromedriver_dir):
+                    if file.startswith("chromedriver") and not file.endswith(".exe") and not file.endswith(".zip"):
+                        exe_path = os.path.join(chromedriver_dir, file)
+                        for chromedriver in os.listdir(exe_path):
+                            if chromedriver.endswith(".exe"):
+                                shutil.copy(os.path.join(exe_path, 'chromedriver.exe'), chromedriver_dir)
+
+                if os.path.exists(chromedriver_path):
+                    print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+                    
             except Exception as e:
                 print("ERROR:", str(e)) # :3
                 input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
@@ -94,7 +120,7 @@ def download_chromedriver(path, operating_system, version, override):
             try:
                 response = requests.get(url, stream=True)
                 total_length = response.headers.get('content-length')
-                with open(chromedriver_path, 'wb') as file:
+                with open(chromedriver_zip, 'wb') as file:
                     download_data = 0
                     total_length = int(total_length)
                     for data in response.iter_content(chunk_size=4096):
@@ -103,7 +129,28 @@ def download_chromedriver(path, operating_system, version, override):
                         done = int(50 * download_data / total_length)
                         print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
                     
-                print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+                print(f"Downloaded Zip To: {path}")
+                print("Unzipping...")
+                
+                if os.path.exists(chromedriver_zip):
+                    with zipfile.ZipFile(chromedriver_zip, 'r') as zip_ref:
+                        for file_info in zip_ref.infolist():
+                            if file_info.filename.endswith('.exe'):
+                                zip_ref.extract(file_info, path)
+
+                    extracted_files = [f for f in os.listdir(path) if f.endswith('.exe')]
+                    print(f"Extracted .exe files: {extracted_files}")
+                    
+                for file in os.listdir(chromedriver_dir):
+                    if file.startswith("chromedriver") and not file.endswith(".exe") and not file.endswith(".zip"):
+                        exe_path = os.path.join(chromedriver_dir, file)
+                        for chromedriver in os.listdir(exe_path):
+                            if chromedriver.endswith(".exe"):
+                                shutil.copy(os.path.join(exe_path, 'chromedriver.exe'), chromedriver_dir)
+                                
+                if os.path.exists(chromedriver_path):
+                    print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+                    
             except Exception as e:
                 print("ERROR:", str(e)) # :3
                 input("Press ENTER To Leave. Please Provide Above Error To Author On Github. https://github.com/Damix-hash/ChromedriveDownloader/issues")
