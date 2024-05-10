@@ -96,6 +96,7 @@ def download_chromedriver(path, operating_system, version, override):
                                 shutil.copy(os.path.join(exe_path, 'chromedriver.exe'), chromedriver_dir)
 
                 if os.path.exists(chromedriver_path):
+                    os.remove(exe_path)
                     print(f"Downloaded Chromedriver To: {path}, Version: {version}")
                     
             except Exception as e:
@@ -149,6 +150,7 @@ def download_chromedriver(path, operating_system, version, override):
                                 shutil.copy(os.path.join(exe_path, 'chromedriver.exe'), chromedriver_dir)
                                 
                 if os.path.exists(chromedriver_path):
+                    os.remove(exe_path)
                     print(f"Downloaded Chromedriver To: {path}, Version: {version}")
                     
             except Exception as e:
