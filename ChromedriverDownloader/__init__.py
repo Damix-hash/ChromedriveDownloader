@@ -76,17 +76,17 @@ def download_chromedriver(path, operating_system, version, override):
                         done = int(50 * download_data / total_length)
                         print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
                     
-                print(f"Downloaded Zip To: {path}")
+                print(f"\nDownloaded Zip To: {path}")
                 print("Unzipping...")
                 if os.path.exists(chromedriver_zip):
                     with zipfile.ZipFile(chromedriver_zip, 'r') as zip_ref:
                         for file_info in zip_ref.infolist():
                             if file_info.filename.endswith('.exe'):
                                 zip_ref.extract(file_info, path)
+                    
 
-                
-                    extracted_files = [f for f in os.listdir(path) if f.endswith('.exe')]
-                    print(f"Extracted .exe files: {extracted_files}")
+                extracted_files = [f for f in os.listdir(path) if f.endswith('.exe')]
+                print(f"Extracted .exe files: {extracted_files}")
 
                 for file in os.listdir(chromedriver_dir):
                     if file.startswith("chromedriver") and not file.endswith(".exe") and not file.endswith(".zip"):
@@ -94,10 +94,14 @@ def download_chromedriver(path, operating_system, version, override):
                         for chromedriver in os.listdir(exe_path):
                             if chromedriver.endswith(".exe"):
                                 shutil.copy(os.path.join(exe_path, 'chromedriver.exe'), chromedriver_dir)
-
+            
                 if os.path.exists(chromedriver_path):
-                    os.remove(exe_path)
-                    print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+                    shutil.rmtree(exe_path)
+
+                if os.path.exists(chromedriver_zip):
+                    os.remove(chromedriver_zip)
+
+                print(f"Downloaded Chromedriver To: {path}, Version: {version}")
                     
             except Exception as e:
                 print("ERROR:", str(e)) # :3
@@ -130,7 +134,7 @@ def download_chromedriver(path, operating_system, version, override):
                         done = int(50 * download_data / total_length)
                         print("\r[%s%s]" % ('=' * done, ' ' * (50 - done)), end='', flush=True)
                     
-                print(f"Downloaded Zip To: {path}")
+                print(f"\nDownloaded Zip To: {path}")
                 print("Unzipping...")
                 
                 if os.path.exists(chromedriver_zip):
@@ -139,8 +143,8 @@ def download_chromedriver(path, operating_system, version, override):
                             if file_info.filename.endswith('.exe'):
                                 zip_ref.extract(file_info, path)
 
-                    extracted_files = [f for f in os.listdir(path) if f.endswith('.exe')]
-                    print(f"Extracted .exe files: {extracted_files}")
+                extracted_files = [f for f in os.listdir(path) if f.endswith('.exe')]
+                print(f"Extracted .exe files: {extracted_files}")
                     
                 for file in os.listdir(chromedriver_dir):
                     if file.startswith("chromedriver") and not file.endswith(".exe") and not file.endswith(".zip"):
@@ -150,8 +154,12 @@ def download_chromedriver(path, operating_system, version, override):
                                 shutil.copy(os.path.join(exe_path, 'chromedriver.exe'), chromedriver_dir)
                                 
                 if os.path.exists(chromedriver_path):
-                    os.remove(exe_path)
-                    print(f"Downloaded Chromedriver To: {path}, Version: {version}")
+                    shutil.rmtree(exe_path)
+
+                if os.path.exists(chromedriver_zip):
+                    os.remove(chromedriver_zip)
+                
+                print(f"Downloaded Chromedriver To: {path}, Version: {version}")
                     
             except Exception as e:
                 print("ERROR:", str(e)) # :3
@@ -160,7 +168,7 @@ def download_chromedriver(path, operating_system, version, override):
         else:
             print(f"chromedriver.exe Already Exists At: {chromedriver_path}")
     else:
-        print(f"{folder} Does not exist! Leaving.")
+        print(f"{path} Does not exist! Leaving.")
         input("Press ENTER To Leave.")
         exit()
 
